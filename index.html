@@ -1,1 +1,645 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
 
+  <title>One Town Centre Calendar</title>
+
+  <style>
+    :root {
+      --background: #EAF4F5;
+      --teal: #17636B;
+      --teal-dark: #173F44;
+      --secondary: #627D80;
+      --card: rgba(255,255,255,0.95);
+      --holiday-card: rgba(255,255,255,0.52);
+      --holiday-date: #B8CCCE;
+      --holiday-text: #557175;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    body {
+      background: var(--background);
+      color: var(--teal-dark);
+
+      font-family:
+        Avenir,
+        "Avenir Next",
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+
+      padding: 4vh 4.5vw 3vh;
+    }
+
+    .header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 3vh;
+    }
+
+    .heading {
+      margin: 0;
+      color: var(--teal);
+
+      font-size:
+        clamp(38px, 3.25vw, 66px);
+
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      line-height: 1;
+    }
+
+    .subheading {
+      color: var(--secondary);
+
+      font-size:
+        clamp(17px, 1.25vw, 25px);
+
+      font-weight: 500;
+    }
+
+    #events {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25vh;
+    }
+
+    .event {
+      display: grid;
+
+      grid-template-columns:
+        clamp(145px, 10vw, 190px)
+        1fr;
+
+      min-height: 9.5vh;
+
+      overflow: hidden;
+
+      background: var(--card);
+
+      border-radius: 16px;
+
+      box-shadow:
+        0 2px 10px
+        rgba(30,70,75,0.04);
+    }
+
+    .date {
+      background:
+        var(--event-color, var(--teal));
+
+      color: white;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 12px;
+
+      padding: 12px 16px;
+    }
+
+    .day-number {
+      color: white;
+
+      font-size:
+        clamp(38px, 3vw, 58px);
+
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .date-meta {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.05;
+    }
+
+    .month {
+      color: white;
+
+      font-size:
+        clamp(16px, 1.15vw, 22px);
+
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .weekday {
+      margin-top: 5px;
+
+      color:
+        rgba(255,255,255,0.78);
+
+      font-size:
+        clamp(14px, 1vw, 19px);
+
+      font-weight: 600;
+    }
+
+    .details {
+      display: grid;
+
+      grid-template-columns:
+        clamp(250px, 20vw, 380px)
+        1fr;
+
+      align-items: center;
+
+      gap: 24px;
+
+      padding: 14px 28px 14px 24px;
+    }
+
+    .event-meta {
+      color: var(--secondary);
+
+      font-size:
+        clamp(18px, 1.35vw, 27px);
+
+      font-weight: 500;
+
+      line-height: 1.25;
+    }
+
+    .location {
+      color: var(--teal);
+      font-weight: 650;
+    }
+
+    .separator {
+      margin: 0 8px;
+      opacity: 0.55;
+    }
+
+    .title {
+      color: var(--teal-dark);
+
+      font-size:
+        clamp(24px, 1.9vw, 38px);
+
+      font-weight: 650;
+      line-height: 1.1;
+    }
+
+    .event.holiday {
+      background: var(--holiday-card);
+      box-shadow: none;
+    }
+
+    .event.holiday .date {
+      background: var(--holiday-date);
+      color: #49676B;
+    }
+
+    .event.holiday .day-number,
+    .event.holiday .month {
+      color: #49676B;
+      font-weight: 600;
+    }
+
+    .event.holiday .weekday {
+      color:
+        rgba(73,103,107,0.70);
+    }
+
+    .event.holiday .details {
+      grid-template-columns: 1fr;
+    }
+
+    .event.holiday .event-meta {
+      display: none;
+    }
+
+    .event.holiday .title {
+      color: var(--holiday-text);
+      font-weight: 500;
+    }
+
+    .message {
+      margin-top: 10vh;
+
+      text-align: center;
+
+      color: var(--secondary);
+
+      font-size:
+        clamp(24px, 2vw, 38px);
+    }
+
+    .status {
+      position: fixed;
+
+      right: 2vw;
+      bottom: 1.5vh;
+
+      color: rgba(98,125,128,0.55);
+
+      font-size:
+        clamp(10px, 0.65vw, 13px);
+
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .status.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <h1 class="heading">
+      Upcoming at One Town Centre
+    </h1>
+
+    <div class="subheading">
+      Building Calendar
+    </div>
+  </header>
+
+  <main id="events">
+    <div class="message">
+      Loading…
+    </div>
+  </main>
+
+  <div
+    id="status"
+    class="status"
+  ></div>
+
+  <script>
+    const DATA_URL =
+      'https://script.google.com/macros/s/AKfycbxWtIDDI_p34Ast0sKObU-2z5mp-UNApWQ9RTICJizoeXlqmY-BLu56pRgJf1Dwzonh/exec';
+
+    const REFRESH_INTERVAL =
+      5 * 60 * 1000;
+
+    let jsonpCounter = 0;
+
+
+    function loadEvents() {
+      jsonpCounter++;
+
+      const callbackName =
+        'calendarCallback_' +
+        jsonpCounter;
+
+      const script =
+        document.createElement(
+          'script'
+        );
+
+      const separator =
+        DATA_URL.includes('?')
+          ? '&'
+          : '?';
+
+      script.src =
+        DATA_URL +
+        separator +
+        'callback=' +
+        callbackName +
+        '&_=' +
+        Date.now();
+
+
+      window[callbackName] =
+        function(events) {
+
+          try {
+            renderEvents(events);
+
+            showStatus(
+              'Updated ' +
+              new Date()
+                .toLocaleTimeString(
+                  [],
+                  {
+                    hour:
+                      'numeric',
+
+                    minute:
+                      '2-digit'
+                  }
+                ),
+              false
+            );
+
+          } finally {
+
+            cleanupJSONP(
+              script,
+              callbackName
+            );
+
+          }
+
+        };
+
+
+      script.onerror =
+        function() {
+
+          /*
+           * Keep the existing calendar
+           * on screen if a refresh fails.
+           */
+
+          const container =
+            document.getElementById(
+              'events'
+            );
+
+          if (
+            !container.querySelector(
+              '.event'
+            )
+          ) {
+
+            container.innerHTML =
+              `
+                <div class="message">
+                  Calendar temporarily unavailable
+                </div>
+              `;
+
+          }
+
+          showStatus(
+            'Unable to refresh',
+            true
+          );
+
+          cleanupJSONP(
+            script,
+            callbackName
+          );
+
+        };
+
+
+      document.body.appendChild(
+        script
+      );
+    }
+
+
+    function cleanupJSONP(
+      script,
+      callbackName
+    ) {
+
+      if (
+        script &&
+        script.parentNode
+      ) {
+        script.parentNode
+          .removeChild(
+            script
+          );
+      }
+
+      try {
+        delete window[
+          callbackName
+        ];
+      } catch (error) {
+        window[
+          callbackName
+        ] = undefined;
+      }
+
+    }
+
+
+    function renderEvents(events) {
+
+      const container =
+        document.getElementById(
+          'events'
+        );
+
+
+      if (
+        !Array.isArray(events) ||
+        !events.length
+      ) {
+
+        container.innerHTML =
+          `
+            <div class="message">
+              No upcoming events
+            </div>
+          `;
+
+        return;
+      }
+
+
+      container.innerHTML =
+        events
+          .map(event => {
+
+            const holiday =
+              event.type ===
+              'holiday';
+
+            const eventColor =
+              validColor(
+                event.color
+              )
+                ? event.color
+                : '#17636B';
+
+            return `
+
+              <article
+                class="
+                  event
+                  ${
+                    holiday
+                      ? 'holiday'
+                      : ''
+                  }
+                "
+
+                style="
+                  --event-color:
+                  ${escapeHtml(
+                    eventColor
+                  )}
+                "
+              >
+
+                <div class="date">
+
+                  <div class="day-number">
+                    ${escapeHtml(
+                      event.day
+                    )}
+                  </div>
+
+                  <div class="date-meta">
+
+                    <div class="month">
+                      ${escapeHtml(
+                        event.month
+                      )}
+                    </div>
+
+                    <div class="weekday">
+                      ${escapeHtml(
+                        event.weekday
+                      )}
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+                <div class="details">
+
+                  ${
+                    holiday
+                      ? ''
+                      : `
+                        <div class="event-meta">
+
+                          <span>
+                            ${escapeHtml(
+                              event.time
+                            )}
+                          </span>
+
+                          ${
+                            event.location
+                              ? `
+                                <span class="separator">
+                                  •
+                                </span>
+
+                                <span class="location">
+                                  ${escapeHtml(
+                                    event.location
+                                  )}
+                                </span>
+                              `
+                              : ''
+                          }
+
+                        </div>
+                      `
+                  }
+
+
+                  <div class="title">
+                    ${escapeHtml(
+                      event.title
+                    )}
+                  </div>
+
+                </div>
+
+              </article>
+            `;
+
+          })
+          .join('');
+    }
+
+
+    function validColor(value) {
+
+      return (
+        typeof value ===
+        'string'
+      ) &&
+      /^#[0-9A-Fa-f]{6}$/
+        .test(value);
+
+    }
+
+
+    function escapeHtml(value) {
+
+      const div =
+        document.createElement(
+          'div'
+        );
+
+      div.textContent =
+        value ?? '';
+
+      return div.innerHTML;
+    }
+
+
+    function showStatus(
+      message,
+      isError
+    ) {
+
+      const status =
+        document.getElementById(
+          'status'
+        );
+
+      status.textContent =
+        message;
+
+      status.classList.add(
+        'visible'
+      );
+
+      clearTimeout(
+        status.hideTimer
+      );
+
+      status.hideTimer =
+        setTimeout(
+          () =>
+            status.classList
+              .remove(
+                'visible'
+              ),
+          isError
+            ? 10000
+            : 3000
+        );
+    }
+
+
+    loadEvents();
+
+    setInterval(
+      loadEvents,
+      REFRESH_INTERVAL
+    );
+
+  </script>
+
+</body>
+</html>
