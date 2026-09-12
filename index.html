@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1"
@@ -177,17 +178,14 @@
 
       font-weight: 500;
 
-      line-height: 1.25;
+      white-space: nowrap;
     }
 
-    .location {
-      color: var(--teal);
-      font-weight: 650;
-    }
-
-    .separator {
-      margin: 0 8px;
-      opacity: 0.55;
+    .event-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3px;
     }
 
     .title {
@@ -198,6 +196,17 @@
 
       font-weight: 650;
       line-height: 1.1;
+    }
+
+    .location {
+      color: var(--secondary);
+
+      font-size:
+        clamp(16px, 1.15vw, 23px);
+
+      font-weight: 500;
+
+      line-height: 1.15;
     }
 
     .event.holiday {
@@ -257,7 +266,9 @@
         clamp(10px, 0.65vw, 13px);
 
       opacity: 0;
-      transition: opacity 0.3s ease;
+
+      transition:
+        opacity 0.3s ease;
     }
 
     .status.visible {
@@ -269,6 +280,7 @@
 <body>
 
   <header class="header">
+
     <h1 class="heading">
       Upcoming at One Town Centre
     </h1>
@@ -276,20 +288,27 @@
     <div class="subheading">
       Building Calendar
     </div>
+
   </header>
 
+
   <main id="events">
+
     <div class="message">
       Loading…
     </div>
+
   </main>
+
 
   <div
     id="status"
     class="status"
   ></div>
 
+
   <script>
+
     const DATA_URL =
       'https://script.google.com/macros/s/AKfycbxWtIDDI_p34Ast0sKObU-2z5mp-UNApWQ9RTICJizoeXlqmY-BLu56pRgJf1Dwzonh/exec';
 
@@ -300,6 +319,7 @@
 
 
     function loadEvents() {
+
       jsonpCounter++;
 
       const callbackName =
@@ -329,6 +349,7 @@
         function(events) {
 
           try {
+
             renderEvents(events);
 
             showStatus(
@@ -337,11 +358,8 @@
                 .toLocaleTimeString(
                   [],
                   {
-                    hour:
-                      'numeric',
-
-                    minute:
-                      '2-digit'
+                    hour: 'numeric',
+                    minute: '2-digit'
                   }
                 ),
               false
@@ -361,11 +379,6 @@
 
       script.onerror =
         function() {
-
-          /*
-           * Keep the existing calendar
-           * on screen if a refresh fails.
-           */
 
           const container =
             document.getElementById(
@@ -403,6 +416,7 @@
       document.body.appendChild(
         script
       );
+
     }
 
 
@@ -415,20 +429,26 @@
         script &&
         script.parentNode
       ) {
+
         script.parentNode
           .removeChild(
             script
           );
+
       }
 
       try {
+
         delete window[
           callbackName
         ];
+
       } catch (error) {
+
         window[
           callbackName
         ] = undefined;
+
       }
 
     }
@@ -455,6 +475,7 @@
           `;
 
         return;
+
       }
 
 
@@ -472,6 +493,7 @@
               )
                 ? event.color
                 : '#17636B';
+
 
             return `
 
@@ -493,26 +515,35 @@
                 "
               >
 
+
                 <div class="date">
 
                   <div class="day-number">
+
                     ${escapeHtml(
                       event.day
                     )}
+
                   </div>
+
 
                   <div class="date-meta">
 
                     <div class="month">
+
                       ${escapeHtml(
                         event.month
                       )}
+
                     </div>
 
+
                     <div class="weekday">
+
                       ${escapeHtml(
                         event.weekday
                       )}
+
                     </div>
 
                   </div>
@@ -522,52 +553,63 @@
 
                 <div class="details">
 
+
                   ${
                     holiday
                       ? ''
                       : `
                         <div class="event-meta">
 
-                          <span>
-                            ${escapeHtml(
-                              event.time
-                            )}
-                          </span>
-
-                          ${
-                            event.location
-                              ? `
-                                <span class="separator">
-                                  •
-                                </span>
-
-                                <span class="location">
-                                  ${escapeHtml(
-                                    event.location
-                                  )}
-                                </span>
-                              `
-                              : ''
-                          }
+                          ${escapeHtml(
+                            event.time
+                          )}
 
                         </div>
                       `
                   }
 
 
-                  <div class="title">
-                    ${escapeHtml(
-                      event.title
-                    )}
+                  <div class="event-info">
+
+                    <div class="title">
+
+                      ${escapeHtml(
+                        event.title
+                      )}
+
+                    </div>
+
+
+                    ${
+                      !holiday &&
+                      event.location
+
+                        ? `
+                          <div class="location">
+
+                            ${escapeHtml(
+                              event.location
+                            )}
+
+                          </div>
+                        `
+
+                        : ''
+                    }
+
                   </div>
+
 
                 </div>
 
+
               </article>
+
             `;
 
           })
           .join('');
+
     }
 
 
@@ -594,6 +636,7 @@
         value ?? '';
 
       return div.innerHTML;
+
     }
 
 
@@ -625,10 +668,12 @@
               .remove(
                 'visible'
               ),
+
           isError
             ? 10000
             : 3000
         );
+
     }
 
 
