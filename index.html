@@ -39,7 +39,6 @@ body {
 
 /* =========================================
    PAGE
-   Primary design target: 1920 × 1080
 ========================================= */
 
 .page {
@@ -47,9 +46,9 @@ body {
   height: 100vh;
 
   padding:
-    42px
+    58px
     72px
-    225px;
+    205px;
 
   display: flex;
   flex-direction: column;
@@ -67,7 +66,7 @@ body {
 
   gap: 40px;
 
-  margin-bottom: 40px;
+  margin-bottom: 52px;
 
   flex-shrink: 0;
 }
@@ -114,7 +113,6 @@ body {
   gap: 16px;
 
   flex: 1;
-
   min-height: 0;
 }
 
@@ -126,7 +124,8 @@ body {
 .event {
   --event-color: #17636B;
 
-  min-height: 108px;
+  height: 118px;
+  min-height: 118px;
 
   display: grid;
 
@@ -146,29 +145,15 @@ body {
 
 
 /* =========================================
-   NEXT EVENT
-========================================= */
-
-.event.next {
-  min-height: 144px;
-
-  background:
-    rgba(255, 255, 255, 0.86);
-}
-
-
-/* =========================================
    DATE BLOCK
 ========================================= */
 
 .date-block {
-  background:
-    var(--event-color);
+  background: var(--event-color);
 
   color: white;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
@@ -179,7 +164,6 @@ body {
 
 .day {
   font-size: 62px;
-
   line-height: 0.92;
 
   font-weight: 600;
@@ -189,7 +173,6 @@ body {
 
 .date-text {
   display: flex;
-
   flex-direction: column;
 
   justify-content: center;
@@ -252,7 +235,6 @@ body {
   color: #526C70;
 
   font-size: 23px;
-
   line-height: 1.2;
 
   font-weight: 400;
@@ -262,7 +244,7 @@ body {
 
 
 /* =========================================
-   EVENT TITLE + LOCATION
+   TITLE + LOCATION
 ========================================= */
 
 .event-info {
@@ -278,7 +260,6 @@ body {
   color: #203B3E;
 
   font-size: 29px;
-
   line-height: 1.12;
 
   font-weight: 500;
@@ -301,13 +282,11 @@ body {
   color: #5F787B;
 
   font-size: 19px;
-
   line-height: 1.15;
 
   font-weight: 400;
 
   overflow: hidden;
-
   text-overflow: ellipsis;
 
   white-space: nowrap;
@@ -330,7 +309,6 @@ body {
   color: #526C70;
 
   font-size: 18px;
-
   line-height: 1.34;
 
   font-weight: 400;
@@ -350,37 +328,10 @@ body {
 
 
 /* =========================================
-   NEXT EVENT EMPHASIS
-========================================= */
-
-.event.next .title {
-  font-size: 34px;
-
-  font-weight: 500;
-}
-
-.event.next .event-meta {
-  font-size: 24px;
-}
-
-.event.next .location {
-  font-size: 20px;
-}
-
-.event.next .description {
-  font-size: 19px;
-
-  -webkit-line-clamp: 3;
-}
-
-
-/* =========================================
-   COMPLETED EVENTS TODAY
+   COMPLETED TODAY
 ========================================= */
 
 .event.past {
-  min-height: 108px;
-
   background:
     rgba(255, 255, 255, 0.40);
 }
@@ -433,36 +384,19 @@ body {
   font-weight: 400;
 }
 
-.event.holiday.next {
-  min-height: 108px;
-
-  background:
-    rgba(255, 255, 255, 0.40);
-}
-
-.event.holiday.next .title {
-  font-size: 29px;
-
-  font-weight: 400;
-}
-
 
 /* =========================================
    OFFICIAL OTC LOGO
-
-   The source PNG is white.
-   Its transparency becomes a mask,
-   allowing an exact deep-teal fill.
 ========================================= */
 
 .otc-logo {
   position: fixed;
 
-  width: 141px;
-  height: 160px;
+  width: 190px;
+  height: 110px;
 
   right: 57px;
-  bottom: 80px;
+  bottom: 58px;
 
   background: #17636B;
 
@@ -529,20 +463,20 @@ body {
 
 
 /* =========================================
-   4K / LARGE DISPLAY
+   4K DISPLAY
 ========================================= */
 
 @media (min-width: 2560px) {
 
   .page {
     padding:
-      84px
+      116px
       144px
-      450px;
+      410px;
   }
 
   .header {
-    margin-bottom: 80px;
+    margin-bottom: 104px;
   }
 
   .heading {
@@ -562,13 +496,10 @@ body {
       360px
       1fr;
 
-    min-height: 216px;
+    height: 236px;
+    min-height: 236px;
 
     border-radius: 22px;
-  }
-
-  .event.next {
-    min-height: 288px;
   }
 
   .day {
@@ -614,33 +545,12 @@ body {
     padding-left: 44px;
   }
 
-  .event.next .title {
-    font-size: 68px;
-  }
-
-  .event.next .event-meta {
-    font-size: 48px;
-  }
-
-  .event.next .location {
-    font-size: 40px;
-  }
-
-  .event.next .description {
-    font-size: 38px;
-  }
-
-  .event.past,
-  .event.holiday.next {
-    min-height: 216px;
-  }
-
   .otc-logo {
-    width: 282px;
-    height: 320px;
+    width: 380px;
+    height: 220px;
 
     right: 114px;
-    bottom: 160px;
+    bottom: 116px;
   }
 
 }
@@ -654,9 +564,13 @@ body {
 
   .page {
     padding:
-      32px
       46px
-      180px;
+      46px
+      155px;
+  }
+
+  .header {
+    margin-bottom: 42px;
   }
 
   .heading {
@@ -667,8 +581,8 @@ body {
     font-size: 21px;
   }
 
-  .header {
-    margin-bottom: 34px;
+  .events {
+    gap: 10px;
   }
 
   .event {
@@ -676,11 +590,8 @@ body {
       145px
       1fr;
 
-    min-height: 92px;
-  }
-
-  .event.next {
-    min-height: 125px;
+    height: 105px;
+    min-height: 105px;
   }
 
   .day {
@@ -726,25 +637,12 @@ body {
     padding-left: 16px;
   }
 
-  .event.next .title {
-    font-size: 27px;
-  }
-
-  .event.next .description {
-    font-size: 16px;
-  }
-
-  .event.past,
-  .event.holiday.next {
-    min-height: 92px;
-  }
-
   .otc-logo {
-    width: 110px;
-    height: 125px;
+    width: 150px;
+    height: 88px;
 
     right: 42px;
-    bottom: 58px;
+    bottom: 42px;
   }
 
 }
@@ -798,12 +696,6 @@ body {
 </main>
 
 
-<!--
-  Official One Town Centre logo.
-  Image itself is used as a mask,
-  so its original white colour does not matter.
--->
-
 <div
   class="otc-logo"
   aria-hidden="true"
@@ -825,7 +717,7 @@ body {
 const DATA_URL =
   'https://script.google.com/macros/s/AKfycbxWtIDDI_p34Ast0sKObU-2z5mp-UNApWQ9RTICJizoeXlqmY-BLu56pRgJf1Dwzonh/exec';
 
-const MAX_UPCOMING_EVENTS = 5;
+const MAX_UPCOMING_EVENTS = 6;
 
 const LOOKAHEAD_DAYS = 60;
 
@@ -863,13 +755,9 @@ function updateDateTime() {
     );
 
   document
-    .getElementById(
-      'datetime'
-    )
+    .getElementById('datetime')
     .textContent =
-      date +
-      ' · ' +
-      time;
+      date + ' · ' + time;
 
 }
 
@@ -893,9 +781,7 @@ function loadEvents() {
     Date.now();
 
   const script =
-    document.createElement(
-      'script'
-    );
+    document.createElement('script');
 
 
   window[callbackName] =
@@ -910,21 +796,15 @@ function loadEvents() {
               : []
           );
 
-        renderEvents(
-          prepared
-        );
+        renderEvents(prepared);
 
-        showStatus(
-          'Updated'
-        );
+        showStatus('Updated');
 
       }
 
       finally {
 
-        delete window[
-          callbackName
-        ];
+        delete window[callbackName];
 
         script.remove();
 
@@ -936,9 +816,7 @@ function loadEvents() {
   script.onerror =
     function() {
 
-      delete window[
-        callbackName
-      ];
+      delete window[callbackName];
 
       script.remove();
 
@@ -1012,9 +890,7 @@ function prepareEvents(events) {
 
 
     const start =
-      new Date(
-        event.sortDate
-      );
+      new Date(event.sortDate);
 
 
     if (
@@ -1043,9 +919,7 @@ function prepareEvents(events) {
 
     const end =
       event.endDate
-        ? new Date(
-            event.endDate
-          )
+        ? new Date(event.endDate)
         : start;
 
 
@@ -1101,52 +975,19 @@ function prepareEvents(events) {
   );
 
 
-  const futureItems =
-    upcoming.slice(
+  /*
+    Six cards maximum in total.
+
+    Completed events from today appear first,
+    followed by upcoming events.
+  */
+
+  return pastToday
+    .concat(upcoming)
+    .slice(
       0,
       MAX_UPCOMING_EVENTS
     );
-
-
-  /*
-    First future BUILDING event gets
-    the larger treatment.
-
-    Holidays never receive the
-    next-event treatment.
-  */
-
-  let nextAssigned =
-    false;
-
-
-  futureItems.forEach(
-    event => {
-
-      event.isNext =
-        false;
-
-
-      if (
-        !nextAssigned &&
-        event.type !== 'holiday'
-      ) {
-
-        event.isNext =
-          true;
-
-        nextAssigned =
-          true;
-
-      }
-
-    }
-  );
-
-
-  return pastToday.concat(
-    futureItems
-  );
 
 }
 
@@ -1182,9 +1023,7 @@ function renderEvents(events) {
     events
       .map(
         event =>
-          buildEventHTML(
-            event
-          )
+          buildEventHTML(event)
       )
       .join('');
 
@@ -1198,8 +1037,7 @@ function renderEvents(events) {
 function buildEventHTML(event) {
 
   const holiday =
-    event.type ===
-    'holiday';
+    event.type === 'holiday';
 
 
   const classes = [
@@ -1208,23 +1046,12 @@ function buildEventHTML(event) {
 
 
   if (holiday) {
-    classes.push(
-      'holiday'
-    );
+    classes.push('holiday');
   }
 
 
   if (event.isPast) {
-    classes.push(
-      'past'
-    );
-  }
-
-
-  if (event.isNext) {
-    classes.push(
-      'next'
-    );
+    classes.push('past');
   }
 
 
@@ -1262,9 +1089,7 @@ function buildEventHTML(event) {
 
   const time =
     event.time
-      ? escapeHTML(
-          event.time
-        )
+      ? escapeHTML(event.time)
       : '';
 
 
@@ -1330,11 +1155,8 @@ function buildEventHTML(event) {
 function isValidHexColor(value) {
 
   return (
-    typeof value ===
-      'string' &&
-    /^#[0-9A-Fa-f]{6}$/.test(
-      value
-    )
+    typeof value === 'string' &&
+    /^#[0-9A-Fa-f]{6}$/.test(value)
   );
 
 }
@@ -1342,9 +1164,7 @@ function isValidHexColor(value) {
 
 function escapeHTML(value) {
 
-  return String(
-    value ?? ''
-  )
+  return String(value ?? '')
 
     .replace(
       /&/g,
